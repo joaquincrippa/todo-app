@@ -22,6 +22,7 @@
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
+        <mapstruct.version>1.2.0.Final</mapstruct.version>
 	</properties>
 
 	<dependencies>
@@ -43,9 +44,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-jdk8</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
 	</dependencies>
-
-
 	<build>
 		<defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
@@ -73,6 +77,25 @@
                     -->
                 </configuration>
             </plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+			  	<artifactId>maven-compiler-plugin</artifactId>
+			  	<configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <!-- For JPA static metamodel generation -->
+                        <path>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <version>${hibernate.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+			</plugin>
         </plugins>
         <pluginManagement>
             <plugins>

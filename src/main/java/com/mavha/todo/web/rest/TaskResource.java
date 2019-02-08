@@ -2,14 +2,19 @@ package com.mavha.todo.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,5 +59,27 @@ public class TaskResource {
         TaskDTO result = taskMapper.toDto(task);
         return ResponseEntity.created(new URI("/api/tasks/" + result.getId())).body(result);
     }
+    
+    /**
+     * GET  /tasks : get all the tasks.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of tasks in body
+     */
+    @GetMapping("/tasks")
+    public ResponseEntity<List<TaskDTO>> getAllTasks(Pageable pageable) {
+        log.debug("REST request to get Tasks: {}", pageable);
+        Page<TaskDTO> page = taskService.findAll(pageable).map(taskMapper::toDto);
+        HttpHeaders headers = generatePaginationHttpHeaders(page, "/api/tasks");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    private <T> HttpHeaders generatePaginationHttpHeaders(Page<T> page, String baseUrl) {
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("total-count", Long.toString(page.getTotalElements()));
+        headers.add("current-page", Integer.toString(page.getNumber()));
+        headers.add("total-pages", Integer.toString(page.getTotalPages()));
+        return headers;
+    }
 }

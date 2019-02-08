@@ -1,10 +1,11 @@
 package com.mavha.todo.service.impl;
 
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mavha.todo.domain.Task;
 import com.mavha.todo.domain.enumeration.TaskStatus;
@@ -37,6 +38,18 @@ public class TaskServiceImpl implements TaskService {
 		task.description(description).picture(picture).pictureContentType(pictureContentType);
 		task.status(TaskStatus.PENDING);
 		return taskRepository.save(task);
+	}
+
+    /**
+     * Get all the tasks.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	@Transactional(readOnly = true)
+	public Page<Task> findAll(Pageable pageable) {
+        log.debug("Request to get all Tasks");
+        return taskRepository.findAll(pageable);
 	}
 
 }

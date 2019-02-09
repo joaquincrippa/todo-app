@@ -1,0 +1,30 @@
+<mat-toolbar>
+    <h1>Tasks</h1>
+    <span class="align-right"></span>
+    <button mat-raised-button color="primary" class="toolbar-option" (click)="showNewTask()">NEW TASK</button>
+</mat-toolbar>
+<mat-card>
+    <mat-card-content>
+      <p class="align-center" *ngIf="tasks.length===0">No results</p>
+      <mat-list style="white-space: normal">      
+        <div *ngFor="let task of tasks; trackBy: let last=last">
+          <mat-list-item style="white-space: normal;">
+            <mat-icon mat-list-icon *ngIf="task.status==='RESOLVED'" class="resolved" matTooltip="Done">check</mat-icon>
+            <mat-icon mat-list-icon *ngIf="task.status==='PENDING'" class="pending" matTooltip="Pending">hourglass_empty</mat-icon>
+            <p mat-line style="white-space: normal;">{{+ task.id + ' - ' + task.description}}</p>
+            <button mat-icon-button color="default" matTooltip="Press to see picture" (click)="showPicture(task, pictureDialog)" *ngIf="task.picture">
+                <mat-icon aria-label="See picture">image</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" matTooltip="Mark as done">DONE</button>
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </mat-list>
+    <mat-progress-spinner class="align-center" [color]="'primary'" [mode]="'indeterminate'" [diameter]="35" *ngIf="isLoading"></mat-progress-spinner>
+  </mat-card-content>
+</mat-card>
+<div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="nextPage()"></div>
+
+<ng-template #pictureDialog>
+    <img [src]="'data:' + selectedTask.pictureContentType + ';base64,' + selectedTask.picture" *ngIf="selectedTask.picture" width="100%" alt="task image"/>
+</ng-template>

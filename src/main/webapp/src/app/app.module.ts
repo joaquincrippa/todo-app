@@ -12,19 +12,33 @@ import { MatInputModule, MatIconModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { NewTaskComponent } from './components/new-task/new-task.component';
+import { ListTasksComponent } from './components/list-tasks/list-tasks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    NewTaskComponent
+    NewTaskComponent,
+    ListTasksComponent
   ],
   imports: [
+    InfiniteScrollModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatTooltipModule,
+    MatCardModule, 
+    MatListModule,
     MatProgressBarModule,
     MatSnackBarModule,
     MatButtonModule,

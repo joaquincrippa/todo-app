@@ -33,7 +33,7 @@ export class NewTaskComponent implements OnInit {
         this.snackBar.open('Task created!', 'CLOSE', {
           duration: 2000,
         });
-        this.dialogRef.close();
+        this.dialogRef.close({created: true});
       },
       (res: HttpErrorResponse) => {
         this.isSaving = false;

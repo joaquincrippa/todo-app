@@ -27,7 +27,10 @@ import com.mavha.todo.web.rest.mapper.TaskMapper;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(
+		origins = "*",
+		maxAge = 3600,
+		exposedHeaders = {"current-page", "total-items", "total-items"})
 public class TaskResource {
 
     private final Logger log = LoggerFactory.getLogger(TaskResource.class);

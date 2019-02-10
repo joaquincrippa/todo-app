@@ -23,6 +23,7 @@
 		<node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <springfox-swagger.version>2.9.2</springfox-swagger.version>
 	</properties>
 
 	<dependencies>
@@ -48,6 +49,16 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-jdk8</artifactId>
 			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>${springfox-swagger.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>${springfox-swagger.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

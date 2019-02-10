@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mavha.todo.domain.Task;
 import com.mavha.todo.service.TaskService;
 import com.mavha.todo.web.rest.dto.TaskDTO;
+import com.mavha.todo.web.rest.dto.TaskDTOStatusOnly;
 import com.mavha.todo.web.rest.mapper.TaskMapper;
+
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/api")
@@ -75,6 +79,29 @@ public class TaskResource {
         Page<TaskDTO> page = taskService.findAll(pageable).map(taskMapper::toDto);
         HttpHeaders headers = generatePaginationHttpHeaders(page, "/api/tasks");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    /**
+     * PATCH  /tasks : only update the status of a task.
+     * the ResponseEntity with status 201 (Created) and with body the updated taskDTO,
+     * with status 404 (Not Found) if the task does not exist,
+     * with status 400 (Bad Request) if the status is not either PENDING or REALIZED
+     *
+     * @param entityWithNewStatus an object with the new status of the task
+     * @return the ResponseEntity with status 200 (OK) and the list of tasks in body
+     */
+    @PatchMapping("/tasks")
+    public ResponseEntity<TaskDTO> updateTaskStatus(@Valid @RequestBody TaskDTOStatusOnly entityWithNewStatus){
+    	try {
+			Task task = taskService.updateStatus(entityWithNewStatus.getId(), entityWithNewStatus.getStatus());
+			return ResponseEntity.ok().body(taskMapper.toDto(task));
+		} catch (NotFoundException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} catch (IllegalArgumentException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
     }
     
     private <T> HttpHeaders generatePaginationHttpHeaders(Page<T> page, String baseUrl) {

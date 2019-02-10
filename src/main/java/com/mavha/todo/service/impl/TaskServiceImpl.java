@@ -12,6 +12,8 @@ import com.mavha.todo.domain.enumeration.TaskStatus;
 import com.mavha.todo.repository.TaskRepository;
 import com.mavha.todo.service.TaskService;
 
+import javassist.NotFoundException;
+
 @Service
 @Transactional
 public class TaskServiceImpl implements TaskService {
@@ -52,4 +54,23 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll(pageable);
 	}
 
+    /**
+     * Update the status of a task.
+     *
+     * @param id the id of the task
+     * @param newStatus the new status of the task 
+     * @return the updated task
+     * @throws NotFoundException, IllegalArgumentException 
+     */
+	public Task updateStatus(Long id, TaskStatus newStatus) throws NotFoundException, IllegalArgumentException {
+		log.debug("Request to update the status of a task | id: %s, status: %s", id, newStatus);
+		if(newStatus == null) {
+			throw new IllegalArgumentException("Status must not be null");
+		}
+		Integer updatedCount = taskRepository.updateStatus(newStatus, id);
+		if(updatedCount == 0) {
+			throw new NotFoundException("The resource does not exist");
+		}
+		return taskRepository.getOne(id);
+	}
 }

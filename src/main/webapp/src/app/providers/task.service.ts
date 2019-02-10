@@ -20,7 +20,13 @@ export class TaskService {
   query(req?: any): Observable<HttpResponse<Task[]>> {
     const options = this.createRequestOption(req);
     return this.http.get<Task[]>(this.resourceUrl, { params: options, observe: 'response' });
-}
+  }
+
+  partiallyUpdate(data: any): Observable<HttpResponse<Task>> {
+    return this.http.patch<Task>(this.resourceUrl, data, { observe: 'response' });
+  }
+
+
 
 private createRequestOption(req?: any): HttpParams {
   let options: HttpParams = new HttpParams();

@@ -4,6 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.mavha.todo.domain.Task;
+import com.mavha.todo.domain.enumeration.TaskStatus;
+
+import javassist.NotFoundException;
 
 public interface TaskService {
 
@@ -24,6 +27,16 @@ public interface TaskService {
      * @return the list of entities
      */
     Page<Task> findAll(Pageable pageable);
+    
+    /**
+     * Update the status of a task.
+     *
+     * @param id the id of the task
+     * @param newStatus the new status of the task 
+     * @return the updated task
+     * @throws NotFoundException 
+     */
+    Task updateStatus(Long id, TaskStatus newStatus) throws NotFoundException;
 
     
 }

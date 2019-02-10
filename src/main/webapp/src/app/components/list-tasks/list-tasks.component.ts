@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class ListTasksComponent implements OnInit {
   tasks: Task[] = [];
-  page: IPage = {page: 0, size: 10, sort: ['id,desc']};
+  page: IPage = { page: 0, size: 10, sort: ['id,desc'] };
   links: any;
   totalItems = 0;
   totalPages = 0;
@@ -76,10 +76,23 @@ export class ListTasksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.created) {
+      if(result && result.created) {
         this.reset();
       }
     });
+  }
+
+  markAsResolved(id: number, index: number) {
+    this.taskService.partiallyUpdate({id: id, status: TaskStatus.RESOLVED}).subscribe(
+      (res: HttpResponse<Task>) => {
+        this.tasks[index] = res.body;
+      },
+      (res: HttpErrorResponse) => {
+        this.snackBar.open('Oops! Something went wrong. Try again later!', '', {
+          duration: 4000,
+        });
+      }
+    );
   }
 }
 

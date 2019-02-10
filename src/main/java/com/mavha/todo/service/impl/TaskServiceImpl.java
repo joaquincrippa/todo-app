@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import com.mavha.todo.domain.Task;
 import com.mavha.todo.domain.enumeration.TaskStatus;
 import com.mavha.todo.repository.TaskRepository;
 import com.mavha.todo.service.TaskService;
+import com.mavha.todo.service.criteria.TaskCriteria;
 
 import javassist.NotFoundException;
 
@@ -43,15 +45,17 @@ public class TaskServiceImpl implements TaskService {
 	}
 
     /**
-     * Get all the tasks.
-     *
+     * Get a page of tasks.
+     * 
+     * @param criteria the filter criteria information
      * @param pageable the pagination information
      * @return the list of entities
      */
 	@Transactional(readOnly = true)
-	public Page<Task> findAll(Pageable pageable) {
-        log.debug("Request to get all Tasks");
-        return taskRepository.findAll(pageable);
+	public Page<Task> findAll(TaskCriteria criteria, Pageable pageable) {
+        log.debug("Request to get all Tasks. Criteria: {}. Page: {}", criteria, pageable);
+		Specification<Task> spec = criteria.getSpecification();
+		return taskRepository.findAll(spec, pageable);
 	}
 
     /**

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mavha.todo.domain.Task;
 import com.mavha.todo.service.TaskService;
+import com.mavha.todo.service.criteria.TaskCriteria;
 import com.mavha.todo.web.rest.dto.TaskDTO;
 import com.mavha.todo.web.rest.dto.TaskDTOStatusOnly;
 import com.mavha.todo.web.rest.mapper.TaskMapper;
@@ -70,13 +71,14 @@ public class TaskResource {
     /**
      * GET  /tasks : get all the tasks.
      *
+     * @param criteria the filter criteria information
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of tasks in body
      */
     @GetMapping("/tasks")
-    public ResponseEntity<List<TaskDTO>> getAllTasks(Pageable pageable) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(TaskCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Tasks: {}", pageable);
-        Page<TaskDTO> page = taskService.findAll(pageable).map(taskMapper::toDto);
+        Page<TaskDTO> page = taskService.findAll(criteria, pageable).map(taskMapper::toDto);
         HttpHeaders headers = generatePaginationHttpHeaders(page, "/api/tasks");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

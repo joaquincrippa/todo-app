@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.mavha.todo.domain.Task;
 import com.mavha.todo.domain.enumeration.TaskStatus;
+import com.mavha.todo.service.criteria.TaskCriteria;
 
 import javassist.NotFoundException;
 
@@ -21,12 +22,13 @@ public interface TaskService {
     Task save(String description, byte[] picture, String pictureContentType);
     
     /**
-     * Get all the tasks.
-     *
+     * Get a page of tasks.
+     * 
+     * @param criteria the filter criteria information
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<Task> findAll(Pageable pageable);
+    Page<Task> findAll(TaskCriteria criteria, Pageable pageable);
     
     /**
      * Update the status of a task.
@@ -37,6 +39,5 @@ public interface TaskService {
      * @throws NotFoundException 
      */
     Task updateStatus(Long id, TaskStatus newStatus) throws NotFoundException;
-
     
 }

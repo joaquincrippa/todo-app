@@ -18,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatSelectModule } from '@angular/material/select';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +35,8 @@ import { ListTasksComponent } from './components/list-tasks/list-tasks.component
     ListTasksComponent
   ],
   imports: [
+    FlexLayoutModule,
+    MatSelectModule,
     InfiniteScrollModule,
     MatProgressSpinnerModule,
     MatDividerModule,

@@ -26,25 +26,20 @@ export class TaskService {
     return this.http.patch<Task>(this.resourceUrl, data, { observe: 'response' });
   }
 
-
-
-private createRequestOption(req?: any): HttpParams {
-  let options: HttpParams = new HttpParams();
-  if (req) {
-      Object.keys(req).forEach(key => {
-          if (req[key] && key !== 'sort') {
-              
-              options = options.set(key, req[key]);
-          }
-      });
-      if (req.sort) {
-          req.sort.forEach(val => {
-              options = options.append('sort', val);
-          });
-      }
+  private createRequestOption(req?: any): HttpParams {
+    let options: HttpParams = new HttpParams();
+    if (req) {
+        Object.keys(req).forEach(key => {
+            if (req[key] && key !== 'sort') {
+                options = options.set(key, req[key]);
+            }
+        });
+        if (req.sort) {
+            req.sort.forEach(val => {
+                options = options.append('sort', val);
+            });
+        }
+    }
+    return options;
   }
-  return options;
-};
-
-
 }

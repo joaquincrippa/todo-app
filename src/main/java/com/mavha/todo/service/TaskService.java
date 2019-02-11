@@ -36,8 +36,8 @@ public interface TaskService {
      * @param id the id of the task
      * @param newStatus the new status of the task 
      * @return the updated task
-     * @throws NotFoundException 
+     * @throws NotFoundException, IllegalArgumentException 
      */
-    Task updateStatus(Long id, TaskStatus newStatus) throws NotFoundException;
+    Task updateStatus(Long id, TaskStatus newStatus) throws NotFoundException, IllegalArgumentException;
     
 }

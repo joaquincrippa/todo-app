@@ -109,7 +109,7 @@
       }
     },
     "todo-app-e2e": {
-      "root": "e2e/",
+      "root": "src/main/webapp/e2e/",
       "projectType": "application",
       "prefix": "",
       "architect": {
@@ -128,7 +128,7 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
+            "tsConfig": "src/main/webapp/e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]

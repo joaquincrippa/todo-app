@@ -40,8 +40,8 @@ export class ListTasksComponent implements OnInit {
         .query({...this.page, ...this.filter})
         .subscribe(
             (res: HttpResponse<Task[]>) => {
-              this.totalItems = parseInt(res.headers.get('total-items'));
-              this.totalPages = parseInt(res.headers.get('total-pages'));
+              this.totalItems = parseInt(res.headers.get('total-items'), 10);
+              this.totalPages = parseInt(res.headers.get('total-pages'), 10);
               this.tasks = this.tasks.concat(res.body);
               this.isLoading = false;
             },
@@ -55,10 +55,9 @@ export class ListTasksComponent implements OnInit {
   }
 
   nextPage() {
-    console.log('otra page');
-    if(!this.isLoading && this.page.page < this.totalPages) {
+    if (!this.isLoading && this.page.page < this.totalPages) {
       this.page.page ++;
-      this.loadAll();  
+      this.loadAll();
     }
   }
 
@@ -80,7 +79,7 @@ export class ListTasksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result && result.created) {
+      if (result && result.created) {
         this.reset();
       }
     });
@@ -111,16 +110,16 @@ export class ListTasksComponent implements OnInit {
   }
 }
 
-interface IPage { 
-  page: number, 
-  size: number,
-  sort: any
+interface IPage {
+  page: number;
+  size: number;
+  sort: any;
 }
 
 interface IFilter {
-  id: number,
-  status: TaskStatus,
-  description: String
+  id: number;
+  status: TaskStatus;
+  description: String;
 }
 
 

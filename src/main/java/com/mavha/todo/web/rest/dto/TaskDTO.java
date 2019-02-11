@@ -1,14 +1,16 @@
 package com.mavha.todo.web.rest.dto;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.Objects;
+
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+
 import com.mavha.todo.domain.enumeration.TaskStatus;
 
 /**
  * A DTO for the Task entity.
  */
+@SuppressWarnings("serial")
 public class TaskDTO implements Serializable {
 
     private Long id;

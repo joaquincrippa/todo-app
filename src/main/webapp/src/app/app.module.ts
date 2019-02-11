@@ -41,7 +41,7 @@ import { ListTasksComponent } from './components/list-tasks/list-tasks.component
     MatProgressSpinnerModule,
     MatDividerModule,
     MatTooltipModule,
-    MatCardModule, 
+    MatCardModule,
     MatListModule,
     MatProgressBarModule,
     MatSnackBarModule,

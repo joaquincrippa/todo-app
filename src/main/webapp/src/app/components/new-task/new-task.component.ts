@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from 'src/app/providers/task.service';
 import { Task } from 'src/app/entities/task';
 import { MatDialogRef } from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material'
+import { MatSnackBar } from '@angular/material';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -53,8 +53,8 @@ export class NewTaskComponent implements OnInit {
         this.newTask.picture = result.substr(result.indexOf('base64,') + 7);
         this.newTask.pictureContentType = file.type;
         this.fileName = file.name;
-      }
-     } else {
+      };
+    } else {
         this.newTask.picture = null;
         this.newTask.pictureContentType = null;
       }

@@ -4,7 +4,7 @@ import { ListTasksComponent } from '../app/components/list-tasks/list-tasks.comp
 
 const routes: Routes = [
   {
-    path: 'tasks',
+    path: '',
     component: ListTasksComponent
 }
 ];

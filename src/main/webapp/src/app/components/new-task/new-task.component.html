@@ -1,0 +1,35 @@
+<form name="createForm" (ngSubmit)="save()" #createForm="ngForm">
+  <h1 mat-dialog-title>Create new task</h1>
+  <div *ngIf="error" class="error-message">
+      <p>Oops! Something went wrong.</p>
+  </div>
+  <mat-progress-bar *ngIf="isSaving" mode="query"></mat-progress-bar>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input name="description" matInput [(ngModel)]="newTask.description" placeholder="Description" required autocomplete="off">
+    </mat-form-field>
+    <div class="img-container">
+        <img [src]="'data:' + newTask.pictureContentType + ';base64,' + newTask.picture" *ngIf="newTask.picture" alt="task image"/>
+        <div *ngIf="newTask.picture">
+            <button class="close" mat-icon-button type="button" (click)="clearPicture('picture', 'pictureContentType', 'fileImage')">
+                <mat-icon aria-label="Clean picture">close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-form-field>
+      <input type="file" id="filePicture" (change)="onPictureChange($event)" accept="image/*"/>
+      <input name="fileName" matInput [(ngModel)]="fileName" autocomplete="off" disabled>
+      <button mat-fab type="button" color="primary" matSuffix onclick="document.getElementById('filePicture').click();">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </mat-form-field>
+    <input type="hidden" class="form-control" name="picture" id="field_picture"
+        [(ngModel)]="newTask.picture" />
+    <input type="hidden" class="form-control" name="pictureContentType" id="field_pictureContentType"
+        [(ngModel)]="newTask.pictureContentType" />
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>CANCEL</button>
+    <button type="submit" color="primary" mat-raised-button [disabled]="isSaving || createForm.form.invalid">SAVE</button>
+  </div>
+</form>

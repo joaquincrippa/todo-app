@@ -1,0 +1,53 @@
+<mat-toolbar>
+    <h1>Tasks</h1>
+    <span class="align-right"></span>
+    <button mat-icon-button color="default" matTooltip="Filter" (click)="changeFilterVisibility()" class="toolbar-option">
+      <mat-icon aria-label="See picture">search</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" class="toolbar-option" (click)="showNewTask()">NEW TASK</button>
+</mat-toolbar>
+<div [hidden]="filterHidden">
+  <form class="filter-form" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
+      <mat-form-field fxFlex="10%">
+        <input name="ID" matInput placeholder="ID" [(ngModel)]="filter.id">
+      </mat-form-field>
+    
+      <mat-form-field fxFlex="50%">
+          <input name="description" matInput placeholder="Description" [(ngModel)]="filter.description">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20%">
+        <mat-select name="status" placeholder="Status" [(value)]="filter.status">
+          <mat-option [value]="status" *ngFor="let status of statusOptions">{{status}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div fxFlex="20%" class="align-center">
+          <button mat-stroked-button type="submit" color="primary" (click)="search()" [disabled]="isLoading">SEARCH</button>
+      </div>
+    </form>  
+  </div>
+<mat-card>
+    <mat-card-content>
+      <p class="align-center" *ngIf="!isLoading && tasks.length===0">No results</p>
+      <mat-list style="white-space: normal">      
+        <div *ngFor="let task of tasks; index as index; trackBy: let last=last">
+          <mat-list-item style="white-space: normal;">
+            <mat-icon mat-list-icon *ngIf="task.status==='RESOLVED'" class="resolved" matTooltip="Done">check</mat-icon>
+            <mat-icon mat-list-icon *ngIf="task.status==='PENDING'" class="pending" matTooltip="Pending">hourglass_empty</mat-icon>
+            <p mat-line style="white-space: normal;">{{+ task.id + ' - ' + task.description}}</p>
+            <button mat-icon-button color="default" matTooltip="Press to see picture" (click)="showPicture(task, pictureDialog)" *ngIf="task.picture">
+                <mat-icon aria-label="See picture">image</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" matTooltip="Mark as done" *ngIf="task.status==='PENDING'" (click)="markAsResolved(task.id, index)">DONE</button>
+          </mat-list-item>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </mat-list>
+    <mat-progress-spinner class="align-center" [color]="'primary'" [mode]="'indeterminate'" [diameter]="35" *ngIf="isLoading"></mat-progress-spinner>
+  </mat-card-content>
+</mat-card>
+<div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="nextPage()"></div>
+
+<ng-template #pictureDialog>
+    <img [src]="'data:' + selectedTask.pictureContentType + ';base64,' + selectedTask.picture" *ngIf="selectedTask.picture" width="100%" alt="task image"/>
+</ng-template>

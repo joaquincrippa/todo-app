@@ -1,0 +1,58 @@
+mat-card {
+    margin: 1rem;
+}
+
+.pending {
+    background: tan;
+}
+
+.resolved {
+    background: green;
+}
+
+mat-toolbar {
+    background: transparent;
+}
+
+.align-right {
+    flex: 1 1 auto;
+}
+
+mat-toolbar .toolbar-option {
+    margin-left: 1rem;
+    margin-top: 1rem;  
+}
+
+mat-toolbar h1 {
+    margin-top: 1rem;  
+    margin-left: 0.5rem;
+}
+
+mat-card-content .align-center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+p.align-center {
+    font-size: 1.25rem;
+}
+
+.filter-form {
+    margin: 1.5rem;
+  }
+
+.filter-form .align-center {
+    text-align: center;
+}
+
+.filter-form .align-center button {
+    margin-top: 1rem;
+    width: 80%;
+}
+
+@media only screen and (max-width: 600px) {
+    .filter-form .align-center button {
+        margin-top: unset;
+        margin-bottom: 1rem;
+    }
+  }

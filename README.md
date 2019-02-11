@@ -19,6 +19,7 @@ Before you can build this project, you must install and configure the following 
 Run the following commands in two separate terminals:
 
     mvnw
+    npm install
     ng serve
 
 ## API Documentation

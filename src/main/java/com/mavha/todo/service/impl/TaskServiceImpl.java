@@ -38,6 +38,9 @@ public class TaskServiceImpl implements TaskService {
      */
 	public Task save(String description, byte[] picture, String pictureContentType) {
         log.debug("Request to save Task. Description: %s", description);
+        if(description == null) {
+        	throw new IllegalArgumentException("Description must not be null");
+        }
 		Task task = new Task();
 		task.description(description).picture(picture).pictureContentType(pictureContentType);
 		task.status(TaskStatus.PENDING);
@@ -50,11 +53,12 @@ public class TaskServiceImpl implements TaskService {
      * @param criteria the filter criteria information
      * @param pageable the pagination information
      * @return the list of entities
+     * @throws IllegalArgumentException
      */
 	@Transactional(readOnly = true)
-	public Page<Task> findAll(TaskCriteria criteria, Pageable pageable) {
+	public Page<Task> findAll(TaskCriteria criteria, Pageable pageable) throws IllegalArgumentException{
         log.debug("Request to get all Tasks. Criteria: {}. Page: {}", criteria, pageable);
-		Specification<Task> spec = criteria.getSpecification();
+		Specification<Task> spec = criteria != null? criteria.getSpecification(): null;
 		return taskRepository.findAll(spec, pageable);
 	}
 
